@@ -10,6 +10,7 @@ import com.example.foodgasm.utils.RegisterValidation
 import com.example.foodgasm.utils.Resource
 import com.example.foodgasm.utils.validateEmail
 import com.example.foodgasm.utils.validatePassword
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -40,6 +41,7 @@ class SignUpViewModel @Inject constructor(
             }
             firebaseAuth.createUserWithEmailAndPassword(user.email, password)
                 .addOnSuccessListener {
+                    firebaseAuth.currentUser?.sendEmailVerification()
                     it.user?.let {
                         saveUserInfo(it.uid,user)
                         Log.d(TAG, "Success")

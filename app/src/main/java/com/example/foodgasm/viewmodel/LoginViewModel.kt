@@ -1,5 +1,6 @@
 package com.example.foodgasm.viewmodel
 
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.foodgasm.utils.Resource
@@ -30,10 +31,17 @@ class LoginViewModel @Inject constructor(
         }
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                viewModelScope.launch {
-                it.user?.let {
-                    _login.emit(Resource.Success(it))
-                }}
+                if (firebaseAuth.currentUser?.isEmailVerified == true) {
+                    viewModelScope.launch {
+                        it.user?.let {
+                            _login.emit(Resource.Success(it))
+                        }
+                    }
+                }else{
+                    viewModelScope.launch {
+                        _login.emit(Resource.Verify())
+                    }
+                }
             }.addOnFailureListener {
                 viewModelScope.launch {
                     _login.emit(Resource.Error(it.message.toString()))

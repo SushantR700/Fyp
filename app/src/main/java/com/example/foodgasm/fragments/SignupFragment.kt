@@ -57,9 +57,10 @@ class SignupFragment:Fragment() {
                 when (it) {
                     is Resource.Success -> {
                         Log.d(TAG, it.data.toString())
-                        Toast.makeText(context, "Registered Successfully", Toast.LENGTH_SHORT)
+                        Toast.makeText(context, "Check your mail to verify!", Toast.LENGTH_SHORT)
                             .show()
                         binding.register.revertAnimation()
+                        findNavController().navigate(R.id.loginFragment)
                     }
 
                     is Resource.Error -> {
@@ -72,28 +73,34 @@ class SignupFragment:Fragment() {
                         binding.register.startAnimation()
                     }
 
+                    is Resource.Verify -> {
+                        Toast.makeText(context, "Check your mail to verify! ", Toast.LENGTH_SHORT)
+                            .show()
+                        binding.register.revertAnimation()
+                    }
+
                     else -> Unit
                 }
             }
-        }
-        lifecycleScope.launchWhenStarted {
-            viewModel.validation.collect {
-                if (it.email is RegisterValidation.Failed) {
-                    binding.editText3.apply {
-                        requestFocus()
-                        error = it.email.message
+            lifecycleScope.launchWhenStarted {
+                viewModel.validation.collect {
+                    if (it.email is RegisterValidation.Failed) {
+                        binding.editText3.apply {
+                            requestFocus()
+                            error = it.email.message
+                        }
                     }
-                }
 
-                if(it.password is RegisterValidation.Failed){
-                    binding.editText4.apply {
-                        requestFocus()
-                        error = it.password.message
+                    if (it.password is RegisterValidation.Failed) {
+                        binding.editText4.apply {
+                            requestFocus()
+                            error = it.password.message
+                        }
                     }
+
                 }
 
             }
-
         }
     }
 }

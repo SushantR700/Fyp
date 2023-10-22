@@ -10,4 +10,6 @@ sealed class Resource<T>(
     class Loading<T>(): Resource<T>()
 
     class Initial<T>(): Resource<T>()
+
+    class Verify<T>():Resource<T>()
 }

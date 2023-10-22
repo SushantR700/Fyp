@@ -95,7 +95,13 @@ dependencies {
     testImplementation("com.google.dagger:hilt-android-testing:2.48")
     kspTest("com.google.dagger:hilt-compiler:2.48")
 
+    //navigation-component
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.2")
 
+
+    //Imageslider
+    implementation("com.github.denzcoskun:ImageSlideshow:0.1.2")
 
 }
 

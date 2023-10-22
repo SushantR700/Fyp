@@ -67,6 +67,8 @@ class LoginFragment:Fragment(R.layout.fragment_login) {
                         Snackbar.make(requireView(),"Failed:${it.message.toString()}",Snackbar.LENGTH_LONG).show()
                     }
 
+
+
                     else -> Unit
                 }
             }
@@ -92,12 +94,15 @@ class LoginFragment:Fragment(R.layout.fragment_login) {
                         binding.register.revertAnimation()
                     }
 
+                    is Resource.Verify ->{
+                        Toast.makeText(requireContext(),"Please verify your email",Toast.LENGTH_LONG).show()
+                        binding.register.revertAnimation()
+                    }
+
                     else -> Unit
                 }
             }
         }
-
-
 
     }
 }

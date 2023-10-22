@@ -158,6 +158,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="Password"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/g_gray700"
             android:textColorHint="@color/g_gray700"
             app:boxStrokeColor="@color/black"
             app:layout_constraintEnd_toStartOf="@id/guideline8"

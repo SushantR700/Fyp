@@ -106,6 +106,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:hint="Password"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/g_gray700"
             android:textColorHint="@color/g_gray700"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline"
@@ -116,9 +118,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_text2"
                 android:layout_width="match_parent"
-                android:textColor="@color/black"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
