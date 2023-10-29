@@ -103,5 +103,8 @@ dependencies {
     //Imageslider
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.2")
 
+    //Picasso
+    implementation("com.squareup.picasso:picasso:2.8")
+
 }
 

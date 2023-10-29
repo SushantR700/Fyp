@@ -5,15 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.denzcoskun.imageslider.ImageSlider
-import com.denzcoskun.imageslider.constants.ScaleTypes
-import com.denzcoskun.imageslider.models.SlideModel
 import com.example.foodgasm.R
 import com.example.foodgasm.adapters.ViewPagerAdapter
 import com.example.foodgasm.databinding.FragmentHomeBinding
-import com.example.foodgasm.fragments.category.AmericanFragment
 import com.example.foodgasm.fragments.category.ChineseFragment
-import com.example.foodgasm.fragments.category.FastfoodFragment
 import com.example.foodgasm.fragments.category.HealthFoodFragment
 import com.example.foodgasm.fragments.category.MainCategoryFragment
 import com.example.foodgasm.fragments.category.NepaliFragment
@@ -35,24 +30,21 @@ class HomeFragment:Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         val categoryList= arrayListOf<Fragment>(
             MainCategoryFragment(),
-            AmericanFragment(),
             ChineseFragment(),
             NepaliFragment(),
-            FastfoodFragment(),
             HealthFoodFragment()
 
         )
+        binding.viewpagerHome.isUserInputEnabled=false
 
         val viewPagerAdapter = ViewPagerAdapter(categoryList,childFragmentManager,lifecycle)
         binding.viewpagerHome.adapter=viewPagerAdapter
         TabLayoutMediator(binding.tablayout,binding.viewpagerHome){ tab,position->
             when(position){
                 0 -> tab.text="Main"
-                1-> tab.text="American"
-                2-> tab.text="Chinese"
-                3-> tab.text="Nepali"
-                4-> tab.text="FastFoods"
-                5->tab.text="HealthFoods"
+                1-> tab.text="Chinese"
+                2-> tab.text="Nepali"
+                3-> tab.text="HealthFoods"
             }
 
         }.attach()
