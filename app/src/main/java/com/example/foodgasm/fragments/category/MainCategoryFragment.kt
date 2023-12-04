@@ -1,13 +1,16 @@
 package com.example.foodgasm.fragments.category
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.constants.AnimationTypes
 import com.denzcoskun.imageslider.constants.ScaleTypes
@@ -25,7 +28,7 @@ import kotlinx.coroutines.launch
 class MainCategoryFragment:Fragment(R.layout.fragment_main_category) {
     private lateinit var binding:FragmentMainCategoryBinding
     private lateinit var Featuredadapter: FeaturedResAdapter
-    private lateinit var Nearadapter: NearByResAdapter
+    private lateinit var nearByResAdapter: NearByResAdapter
     private val viewModel by viewModels<MainCategoryViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +43,13 @@ class MainCategoryFragment:Fragment(R.layout.fragment_main_category) {
         super.onViewCreated(view, savedInstanceState)
         setUpRv()
         setUpRv2()
+
+        nearByResAdapter.onClick = {
+            val b=Bundle().apply { putParcelable("restaurant",it) }
+            val actionId = R.id.action_homeFragment_to_itemListingFragment
+            Log.d("Navigation", "Action ID: $actionId")
+            findNavController().navigate(actionId, b)
+        }
         lifecycleScope.launch {
             viewModel.featuredRes.collectLatest {
                 when(it){
@@ -65,7 +75,7 @@ class MainCategoryFragment:Fragment(R.layout.fragment_main_category) {
                         showLoading()
                     }
                     is Resource.Success -> {
-                        Nearadapter.differ2.submitList(it.data)
+                        nearByResAdapter.differ2.submitList(it.data)
                         hideLoading()
                     }
                     is Resource.Error -> {
@@ -83,16 +93,23 @@ class MainCategoryFragment:Fragment(R.layout.fragment_main_category) {
         binding.imageSlider.setImageList(imageList, ScaleTypes.FIT)
         binding.imageSlider.setSlideAnimation(AnimationTypes.DEPTH_SLIDE)
 
+            binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
+                v,_,scrollY,_,_ ->
+                if(v.getChildAt(0).bottom <= v.height + scrollY){
+                    viewModel.fetchallRes()
+                }
+            })
 
     }
 
     private fun setUpRv2() {
-        Nearadapter = NearByResAdapter()
+        nearByResAdapter = NearByResAdapter()
         binding.restaurantRv.apply {
             layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-            adapter=Nearadapter
+            adapter=nearByResAdapter
         }
     }
+
 
     private fun hideLoading() {
         binding.progressBar.visibility=View.GONE
@@ -109,4 +126,5 @@ class MainCategoryFragment:Fragment(R.layout.fragment_main_category) {
             adapter=Featuredadapter
         }
     }
+
 }

@@ -10,9 +10,9 @@ import com.example.foodgasm.data.RestaurantModel
 import com.example.foodgasm.databinding.FeatureRvItemBinding
 import com.squareup.picasso.Picasso
 
-class NearByResAdapter:RecyclerView.Adapter<NearByResAdapter.NearByResViewHolder>() {
+class NearByResAdapter() :RecyclerView.Adapter<NearByResAdapter.NearByResViewHolder>() {
 
-    inner class NearByResViewHolder(private val binding: FeatureRvItemBinding):RecyclerView.ViewHolder(binding.root){
+    inner class NearByResViewHolder( val binding: FeatureRvItemBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(restaurant: RestaurantModel){
             binding.apply {
                 Log.d("Glide", "Loading image: ${restaurant.image}")
@@ -21,6 +21,7 @@ class NearByResAdapter:RecyclerView.Adapter<NearByResAdapter.NearByResViewHolder
                 address.text=restaurant.address.toString()
                 duration.text=restaurant.duration.toString()
                 discount.text=restaurant.discount.toString()
+
             }
         }
     }
@@ -51,6 +52,13 @@ class NearByResAdapter:RecyclerView.Adapter<NearByResAdapter.NearByResViewHolder
 
     override fun onBindViewHolder(holder: NearByResViewHolder, position: Int) {
         val restaurant = differ2.currentList[position]
-        holder.bind(restaurant)
+        restaurant.let {
+            holder.bind(it)
+        }
+        holder.itemView.setOnClickListener {
+            onClick?.invoke(restaurant)
+        }
     }
+
+    var onClick : ((RestaurantModel) -> Unit) ?=null
 }

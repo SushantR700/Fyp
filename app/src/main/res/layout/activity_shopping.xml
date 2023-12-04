@@ -15,8 +15,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:navGraph="@navigation/bottom_navigation_graph"
+        app:navGraph="@navigation/shopping_nav"
         android:name="androidx.navigation.fragment.NavHostFragment"/>
+
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
