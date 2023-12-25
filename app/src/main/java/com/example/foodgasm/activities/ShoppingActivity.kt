@@ -9,7 +9,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.foodgasm.R
 import com.example.foodgasm.databinding.ActivityShoppingBinding
 import com.example.foodgasm.utils.Resource
-import com.example.foodgasm.viewmodel.CartViewModel
+import com.example.foodgasm.viewmodel.CartAndDetailsViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -38,7 +38,7 @@ class ShoppingActivity : AppCompatActivity() {
         ActivityShoppingBinding.inflate(layoutInflater)
     }
 
-    val viewModel by viewModels<CartViewModel>()
+    val viewModel by viewModels<CartAndDetailsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

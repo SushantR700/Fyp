@@ -15,13 +15,12 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodgasm.R
 import com.example.foodgasm.adapters.FoodListingAdapter
-import com.example.foodgasm.data.CartProduct
 import com.example.foodgasm.data.RestaurantModel
 import com.example.foodgasm.databinding.ChildItemBinding
 import com.example.foodgasm.databinding.FragmentFoodListingBinding
 import com.example.foodgasm.utils.Resource
 import com.example.foodgasm.utils.hideBottomNavigationView
-import com.example.foodgasm.viewmodel.DetailsViewModel
+import com.example.foodgasm.viewmodel.CartAndDetailsViewModel
 import com.example.foodgasm.viewmodel.MenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -38,7 +37,7 @@ class FoodListingFragment : Fragment(R.layout.fragment_food_listing) {
     private lateinit var item:RestaurantModel
     private lateinit var owner:RestaurantModel
     private lateinit var restaurantId:String
-    private val viewModel2 by viewModels<DetailsViewModel>()
+    private val viewModel2 by viewModels<CartAndDetailsViewModel>()
 
 
     private val viewModel by viewModels<MenuViewModel>()
@@ -62,6 +61,7 @@ class FoodListingFragment : Fragment(R.layout.fragment_food_listing) {
         setUpRv()
         foodListingAdapter.onClick = { item ->
             val b=Bundle().apply { putParcelable("item2",item)
+                Log.e("Item", item.id)
                 putParcelable("owner",owner)
             }
 

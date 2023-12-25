@@ -18,13 +18,13 @@ import com.example.foodgasm.databinding.FragmentCartBinding
 import com.example.foodgasm.firebase.FirebaseCommon
 import com.example.foodgasm.utils.Resource
 import com.example.foodgasm.utils.VerticalItemDecoration
-import com.example.foodgasm.viewmodel.CartViewModel
+import com.example.foodgasm.viewmodel.CartAndDetailsViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 class CartFragment : Fragment(R.layout.fragment_cart) {
     private lateinit var binding: FragmentCartBinding
     private val cartAdapter by lazy { CartProductAdapter() }
-    private val viewModel by activityViewModels<CartViewModel>()
+    private val viewModel by activityViewModels<CartAndDetailsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +57,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 //        }
 
         cartAdapter.onPlusClick = {
-            Toast.makeText(requireActivity(), it.restaurant.id, Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), it.ownerCart.id, Toast.LENGTH_SHORT).show()
             viewModel.changeQuantity(it, FirebaseCommon.QuantityChanging.INCREASE)
         }
 

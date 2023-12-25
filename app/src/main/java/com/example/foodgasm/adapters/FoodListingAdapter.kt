@@ -1,5 +1,6 @@
 package com.example.foodgasm.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -12,11 +13,11 @@ import com.squareup.picasso.Picasso
 class FoodListingAdapter() : RecyclerView.Adapter<FoodListingAdapter.FoodListingViewHolder>() {
 
     inner class FoodListingViewHolder( val binding: ChildItemBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(restaurant: RestaurantModel){
+        fun bind(item: RestaurantModel){
             binding.apply {
-                Picasso.get().load(restaurant.image).into(image)
-                name.text=restaurant.name.toString()
-
+                Log.d("ImageURL", "Image URL: ${item.image}")
+                Picasso.get().load(item.image).into(image)
+                name.text=item.name.toString()
             }
         }
     }
@@ -46,12 +47,12 @@ class FoodListingAdapter() : RecyclerView.Adapter<FoodListingAdapter.FoodListing
     }
 
     override fun onBindViewHolder(holder: FoodListingViewHolder, position: Int) {
-        val restaurant = differ2.currentList[position]
-        restaurant.let {
+        val item = differ2.currentList[position]
+        item.let {
             holder.bind(it)
         }
         holder.binding.root.setOnClickListener {
-            onClick?.invoke(restaurant)
+            onClick?.invoke(item)
 
         }
 

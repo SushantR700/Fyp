@@ -19,7 +19,7 @@ class ItemListingAdapter() : RecyclerView.Adapter<ItemListingAdapter.ItemListing
     inner class ItemListingViewHolder( val binding: ParentItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(restaurant: RestaurantModel){
             binding.apply {
-
+                Log.d("ImageURL2", "Image URL: ${restaurant.image}")
                 name.text=restaurant.name.toString()
 
             }
