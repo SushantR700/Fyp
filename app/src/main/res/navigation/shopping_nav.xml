@@ -22,14 +22,27 @@
         android:label="CartFragment"
         tools:layout="@layout/fragment_cart">
         <action
-            android:id="@+id/action_cartFragment_to_itemListingFragment"
-            app:destination="@id/itemListingFragment" />
+            android:id="@+id/action_cartFragment_to_foodDetailsFragment"
+            app:destination="@id/foodDetailsFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_billingFragment"
+            app:destination="@id/billingFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.foodgasm.fragments.food.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_allOrdersFragment"
+            app:destination="@id/allOrdersFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_billingFragment"
+            app:destination="@id/billingFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.foodgasm.fragments.food.SearchFragment"
@@ -47,5 +60,89 @@
         <argument
             android:name="restaurant"
             app:argType="com.example.foodgasm.data.RestaurantModel" />
+        <action
+            android:id="@+id/action_itemListingFragment_to_foodListingFragment"
+            app:destination="@id/foodListingFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/foodListingFragment"
+        android:name="com.example.foodgasm.fragments.FoodListingFragment"
+        android:label="FoodListingFragment"
+        tools:layout="@layout/fragment_food_listing">
+        <argument
+            android:name="item"
+            app:argType="com.example.foodgasm.data.RestaurantModel" />
+
+        <argument
+            android:name="owner"
+            app:argType="com.example.foodgasm.data.RestaurantModel" />
+        <argument
+            android:name="restaurant"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_foodListingFragment_to_foodDetailsFragment"
+            app:destination="@id/foodDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/foodDetailsFragment"
+        android:name="com.example.foodgasm.fragments.FoodDetailsFragment"
+        android:label="FoodDetailsFragmentFragment"
+        tools:layout="@layout/fragment_food_details">
+        <argument
+            android:name="item2"
+            app:argType="com.example.foodgasm.data.RestaurantModel" />
+
+        <argument
+            android:name="owner"
+            app:argType="com.example.foodgasm.data.RestaurantModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        android:name="com.example.foodgasm.fragments.AddressFragment"
+        tools:layout="@layout/fragment_address"
+        android:label="AddressFragment" >
+        <argument
+            android:name="address"
+            app:argType="com.example.foodgasm.data.Address"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
+    <fragment
+        android:id="@+id/billingFragment"
+        android:name="com.example.foodgasm.fragments.BillingFragment"
+        android:label="BillingFragment"
+        tools:layout="@layout/fragment_billing">
+        <action
+            android:id="@+id/action_billingFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+        <argument
+            android:name="price"
+            app:argType="float" />
+        <argument
+            android:name="products"
+            app:argType="com.example.foodgasm.data.CartProduct[]" />
+        <argument
+            android:name="payment"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/allOrdersFragment"
+        android:name="com.example.foodgasm.fragments.AllOrdersFragment"
+        tools:layout="@layout/fragment_orders"
+        android:label="AllOrdersFragment" >
+        <action
+            android:id="@+id/action_allOrdersFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.example.foodgasm.fragments.OrderDetailFragment"
+        tools:layout="@layout/fragment_order_detail"
+        android:label="OrderDetailFragment" >
+        <argument
+            android:name="order"
+            app:argType="com.example.foodgasm.order.Order" />
+    </fragment>
+
+
 </navigation>

@@ -50,7 +50,12 @@ class FoodListingAdapter() : RecyclerView.Adapter<FoodListingAdapter.FoodListing
         restaurant.let {
             holder.bind(it)
         }
+        holder.binding.root.setOnClickListener {
+            onClick?.invoke(restaurant)
+
+        }
 
     }
+    var onClick: ((RestaurantModel)-> Unit)?=null
 
 }

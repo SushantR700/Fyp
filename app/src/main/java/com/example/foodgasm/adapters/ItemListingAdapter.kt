@@ -20,7 +20,7 @@ class ItemListingAdapter() : RecyclerView.Adapter<ItemListingAdapter.ItemListing
         fun bind(restaurant: RestaurantModel){
             binding.apply {
 
-               name.text=restaurant.name.toString()
+                name.text=restaurant.name.toString()
 
             }
         }
@@ -57,14 +57,10 @@ class ItemListingAdapter() : RecyclerView.Adapter<ItemListingAdapter.ItemListing
             holder.bind(it)
         }
 
-        val isExpandable = restaurant.isExpandable
-        Log.d("Expandable", "Position: $position, isExpandable: $isExpandable")
-        holder.binding.childRv.visibility = if (restaurant.isExpandable) View.VISIBLE else View.GONE
 
         holder.binding.root.setOnClickListener {
-            restaurant.isExpandable = !restaurant.isExpandable
             onClick?.invoke(restaurant)
-            notifyItemChanged(position)
+
         }
 
 

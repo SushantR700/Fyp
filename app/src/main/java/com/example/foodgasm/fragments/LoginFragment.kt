@@ -1,5 +1,6 @@
 package com.example.foodgasm.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,6 +36,20 @@ class LoginFragment:Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val sharedPreferences = requireActivity().getSharedPreferences("MY_PRE",Context.MODE_PRIVATE)
+        val getUsername = sharedPreferences.getString("EMAIL","")
+        val getPassword = sharedPreferences.getString("PASSWORD","")
+
+        if(getUsername != "" && getPassword != ""){
+            Intent(requireContext(),ShoppingActivity::class.java).also {
+                it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(it)
+            }
+        }
+
+
+
         binding.textView2.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_signupFragment)
         }
@@ -81,6 +96,14 @@ class LoginFragment:Fragment(R.layout.fragment_login) {
                     }
 
                     is Resource.Success ->{
+                        val email = binding.editText.text.toString()
+                        val password = binding.editText2.text.toString()
+
+                        val sharedPreferences = requireActivity().getSharedPreferences("MY_PRE",Context.MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putString("EMAIL",email);
+                        editor.putString("PASSWORD",password)
+                        editor.apply()
                         binding.register.revertAnimation()
                         Intent(requireContext(),ShoppingActivity::class.java).also {
                             it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)

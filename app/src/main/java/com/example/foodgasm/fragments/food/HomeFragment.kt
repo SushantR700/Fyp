@@ -12,6 +12,7 @@ import com.example.foodgasm.fragments.category.ChineseFragment
 import com.example.foodgasm.fragments.category.HealthFoodFragment
 import com.example.foodgasm.fragments.category.MainCategoryFragment
 import com.example.foodgasm.fragments.category.NepaliFragment
+import com.example.foodgasm.utils.showBottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeFragment:Fragment(R.layout.fragment_home) {
@@ -23,8 +24,10 @@ class HomeFragment:Fragment(R.layout.fragment_home) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        showBottomNavigationView()
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

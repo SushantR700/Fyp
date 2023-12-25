@@ -12,8 +12,9 @@ data class RestaurantModel(
     var address: String,
     var duration: String,
     var discount: String,
+    var price: Float,
     var image: String,
-    var isExpandable:Boolean
+    var offerPercentage : Float? = null
 ) : Parcelable {
     constructor() : this(
         id = "",
@@ -22,7 +23,7 @@ data class RestaurantModel(
         address = "",
         duration = "",
         discount = "",
-        isExpandable=false,
+        price = 0f,
         image = ""
     )
 }

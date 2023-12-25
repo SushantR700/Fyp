@@ -1,22 +1,25 @@
 package com.example.foodgasm.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodgasm.R
-import com.example.foodgasm.adapters.FoodListingAdapter
 import com.example.foodgasm.adapters.ItemListingAdapter
 import com.example.foodgasm.data.RestaurantModel
 import com.example.foodgasm.databinding.FragmentItemListingBinding
 import com.example.foodgasm.databinding.ParentItemBinding
 import com.example.foodgasm.utils.Resource
+import com.example.foodgasm.utils.hideBottomNavigationView
 import com.example.foodgasm.viewmodel.MenuViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -27,7 +30,6 @@ class ItemListingFragment : Fragment(R.layout.fragment_item_listing) {
     private lateinit var binding: FragmentItemListingBinding
     private lateinit var binding2: ParentItemBinding
     private lateinit var itemListingAdapter:ItemListingAdapter
-    private lateinit var foodListingAdapter: FoodListingAdapter
     private val args by navArgs<ItemListingFragmentArgs>()
     private lateinit var restaurant:RestaurantModel
     private val viewModel by viewModels<MenuViewModel>()
@@ -36,7 +38,8 @@ class ItemListingFragment : Fragment(R.layout.fragment_item_listing) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-         binding = FragmentItemListingBinding.inflate(inflater)
+        hideBottomNavigationView()
+        binding = FragmentItemListingBinding.inflate(inflater)
         binding2 = ParentItemBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -48,26 +51,15 @@ class ItemListingFragment : Fragment(R.layout.fragment_item_listing) {
 
         setUpRv()
 
-        itemListingAdapter.onClick = {
-            viewModel.fetchFood(it.id)
-            setUpRv2()
-            lifecycleScope.launch {
-                viewModel.food.collectLatest { resource ->
-                    when (resource) {
-                        is Resource.Success -> {
-                            // Clear the existing list before submitting the new one
-                            foodListingAdapter.differ2.submitList(null)
-                            foodListingAdapter.differ2.submitList(resource.data)
-
-                        }
-                        is Resource.Error -> {
-                            Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT).show()
-                        }
-                        else -> Unit
-                    }
-                }
-            }
+        itemListingAdapter.onClick = { item ->
+            val b=Bundle().apply { putParcelable("item",item)
+                putParcelable("owner",restaurant)
+            putString("restaurant",restaurant.id)}
+            val actionId = R.id.action_itemListingFragment_to_foodListingFragment
+            Log.d("Navigation", "Action ID: $actionId")
+            findNavController().navigate(actionId, b)
         }
+
         lifecycleScope.launch {
             viewModel.item.collectLatest {
                 when(it){
@@ -83,20 +75,6 @@ class ItemListingFragment : Fragment(R.layout.fragment_item_listing) {
         }
     }
 
-    private fun setUpRv2() {
-        // Initialize the foodListingAdapter only if it hasn't been initialized yet
-        if (!::foodListingAdapter.isInitialized) {
-            foodListingAdapter = FoodListingAdapter()
-            binding2.childRv.apply {
-                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                adapter = foodListingAdapter
-            }
-        }
-    }
-
-
-
-
     private fun setUpRv() {
         itemListingAdapter = ItemListingAdapter()
         binding.itemrv.apply {
@@ -104,7 +82,15 @@ class ItemListingFragment : Fragment(R.layout.fragment_item_listing) {
             adapter = itemListingAdapter
         }
     }
-
+    override fun onResume() {
+        super.onResume()
+        Log.e("PRessed","Error")
+        // Add back button listener
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            // Navigate up when back button is pressed
+            findNavController().navigate(R.id.homeFragment)
+        }
+    }
 
 
 }
